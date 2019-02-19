@@ -1,0 +1,11 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "isCreatingSolution": true,
+    "environment": "spo",
+    "version": "1.7.1",
+    "libraryName": "react-img-carousel",
+    "libraryId": "88e375b5-ced2-4ee1-b65e-1e18e4319e3e",
+    "packageManager": "npm",
+    "componentType": "webpart"
+  }
+}

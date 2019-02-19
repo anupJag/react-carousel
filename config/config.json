@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "image-carousel-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/imageCarousel/ImageCarouselWebPart.js",
+          "manifest": "./src/webparts/imageCarousel/ImageCarouselWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "ImageCarouselWebPartStrings": "lib/webparts/imageCarousel/loc/{locale}.js"
+  }
+}
