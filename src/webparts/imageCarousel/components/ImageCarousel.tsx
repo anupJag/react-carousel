@@ -1,22 +1,28 @@
 import * as React from 'react';
 import styles from './ImageCarousel.module.scss';
-import { IImageCarouselProps } from './IImageCarouselProps';
+import { IImageCarouselProps, IImageCarouselConfig } from './IImageCarouselProps';
 import { escape } from '@microsoft/sp-lodash-subset';
+import Carousel from './Carousel/Carousel';
 
 export default class ImageCarousel extends React.Component<IImageCarouselProps, {}> {
   public render(): React.ReactElement<IImageCarouselProps> {
     return (
-      <div className={ styles.imageCarousel }>
-        <div className={ styles.container }>
-          <div className={ styles.row }>
-            <div className={ styles.column }>
-              <span className={ styles.title }>Welcome to SharePoint!</span>
-              <p className={ styles.subTitle }>Customize SharePoint experiences using Web Parts.</p>
-              <p className={ styles.description }>{escape(this.props.description)}</p>
-              <a href="https://aka.ms/spfx" className={ styles.button }>
-                <span className={ styles.label }>Learn more</span>
-              </a>
-            </div>
+      <div className={styles.imageCarousel}>
+        <div className={styles.container}>
+          <div className={styles.row}>
+            {
+              this.props.carouselConfig && this.props.carouselConfig.length > 0 ?
+                this.props.carouselConfig.map((el: IImageCarouselConfig, index) =>
+                  <Carousel
+                    key={index}
+                    imageURL={el.imageURL}
+                    imageRedirectURL={el.imageRedirectURL}
+                    imageText={el.imageText}
+                  />
+                )
+                :
+                <p>Please Configure the Webpart</p>
+            }
           </div>
         </div>
       </div>

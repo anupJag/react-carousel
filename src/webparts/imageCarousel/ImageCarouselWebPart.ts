@@ -37,29 +37,63 @@ export default class ImageCarouselWebPart extends BaseClientSideWebPart<IImageCa
       this.properties.firstLoad = true;
       this.properties.numberOfImages = 1;
       this.properties.imageCarouselConfig = [];
-      this.properties.imageCarouselConfig.push(this.getDefaultConfig());
+      //this.properties.imageCarouselConfig.push(this.getDefaultConfig());
     }
 
     const element: React.ReactElement<IImageCarouselProps> = React.createElement(
       ImageCarousel,
       {
-        description: ""
+        carouselConfig : this.properties.imageCarouselConfig,
+        sliderTime : this.properties.sliderTime
       }
     );
 
     ReactDom.render(element, this.domElement);
   }
 
-  protected onPropertyPaneConfigurationStart(): void {
-    if (this.properties.firstLoad || this.properties.imageCarouselConfig[0].imageURL.length <= 0) {
-      this.properties.firstLoad = false;
-      const firstLoadData: IImageCarouselConfig = this.getDefaultConfig();
-      this.properties.imageCarouselConfig.push(firstLoadData);
-    }
-  }
+  // protected onPropertyPaneConfigurationStart(): void {
+  //   if (this.properties.firstLoad || this.properties.imageCarouselConfig[0].imageURL.length <= 0) {
+  //     this.properties.firstLoad = false;
+  //     const firstLoadData: IImageCarouselConfig = this.getDefaultConfig();
+  //     this.properties.imageCarouselConfig.push(firstLoadData);
+  //   }
+  // }
 
-  protected onPropertyPaneFieldChanged(propertyPath: string, oldValue: any, newValue: any): void { 
-    
+  protected onPropertyPaneFieldChanged(propertyPath: string, oldValue: any, newValue: any): void {
+    let pPath = propertyPath;
+    let pIndex = propertyPath[20];
+
+    if (pPath === "numberOfImages" && oldValue !== newValue) {
+      if (this.properties.imageCarouselConfig.length < newValue) {
+        while (this.properties.imageCarouselConfig.length < newValue) {
+          this.properties.imageCarouselConfig.push(this.getDefaultConfig());
+        }
+      }
+      else if (this.properties.imageCarouselConfig.length > newValue) {
+        while (newValue < this.properties.imageCarouselConfig.length) {
+          this.properties.imageCarouselConfig.pop();
+        }
+      }
+    }
+
+    if (propertyPath.indexOf('[') != -1) {
+      pPath = propertyPath.substring(24).replace('\"]', '');
+    }
+
+    if (pPath === "imageURL" && (oldValue != newValue)) {
+      this.properties.imageCarouselConfig[pIndex]["imageURL"] = newValue;
+    }
+
+    if (pPath === "imageRedirectURL" && (oldValue != newValue)) {
+      this.properties.imageCarouselConfig[pIndex]["imageRedirectURL"] = newValue;
+    }
+
+    if (pPath === "imageText" && (oldValue != newValue)) {
+      this.properties.imageCarouselConfig[pIndex]["imageText"] = newValue;
+    }
+
+    this.context.propertyPane.refresh();
+
   }
 
   protected onDispose(): void {
@@ -75,7 +109,7 @@ export default class ImageCarouselWebPart extends BaseClientSideWebPart<IImageCa
   }
 
   protected checkIfValidURL = (value: string): string => {
-    let regexExp: RegExp = new RegExp(/(http(s):)([/|.|\w|\s|-])*\.(?:jpg|png)/);
+    let regexExp: RegExp = new RegExp(/(http(s):)([/|.|\w|\s|-])*\.(?:jpg|png|jpeg)/);
     if (regexExp.test(value)) {
       return "";
     }

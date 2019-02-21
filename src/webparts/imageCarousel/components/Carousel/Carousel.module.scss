@@ -1,0 +1,35 @@
+@import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
+
+
+.carouselHolder{
+    height: 100%;
+    width: 100%;
+    position: relative;
+
+    .withLink{
+        height: 100%;
+        width: 100%;
+    }
+
+    .contentArea{
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        bottom: 2%;
+        left: 5%;
+        height: 20%;
+        width: 90%;
+        background: rgba(0,0,0,0.5);
+        overflow: hidden;
+
+        .content{
+            font-size: 2em;
+            width: 100%;
+            margin-left: 15px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+    }
+
+}

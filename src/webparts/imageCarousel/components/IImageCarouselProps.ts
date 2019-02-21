@@ -1,5 +1,6 @@
 export interface IImageCarouselProps {
-  description: string;
+  carouselConfig: IImageCarouselConfig[];
+  sliderTime : number;
 }
 
 
